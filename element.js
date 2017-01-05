@@ -34,8 +34,9 @@ export default createElementClass({
     // this.input.className += ' shaf-screenreader-only'
     // this.updateRendering()
 
-    const patch = this.textContent
-    this.childNodes[0].remove()
+    const pre = this.querySelector('pre')
+    pre.style.display = 'none'
+    const patch = pre.textContent
 
     let lines = patch.split("\n")
     let oops = 0
@@ -54,15 +55,17 @@ export default createElementClass({
         })
       }
     }
+
+    this.container = document.createElement('div')
     if (document.body.attachShadow) {
-      this.container = this.attachShadow({mode: 'open'})
+      this.container = this.container.attachShadow({mode: 'open'})
     }
 
     for (let chunk of chunks) {
       chunk.lines.forEach((line, index, lines) => {
         if (line.type === 'removal') {
           const l = leven(line.text, lines[index + 1].text)
-          if (l < 5) {
+          if (l < 10) {
             line.hidden = true
             lines[index + 1].diff = diff(line.text, lines[index + 1].text)
           }
@@ -121,6 +124,8 @@ export default createElementClass({
         this.container.appendChild(hr)
       }
     }
+
+    this.appendChild(this.container)
 
     // this.container.innerHTML = `<pre>${JSON.stringify(chunks, null, 2)}</pre>`
 

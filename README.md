@@ -14,13 +14,14 @@
 
 ```html
 <shaf-unified-diff>
-  diff -u originaldirectory/file1 updateddirectory/file1
-  --- originaldirectory/file1 2007-02-04 16:17:57.000000000 +0100
-  +++ updateddirectory/file1 2007-02-04 16:18:33.000000000 +0100
-  @@ -1 +1 @@
-  -This is the first original file.
-  +This is the first updated file.
-  diff -u originaldirectory/file2 updateddirectory/file2
+  <pre>
+    diff -u originaldirectory/file1 updateddirectory/file1
+    --- originaldirectory/file1 2007-02-04 16:17:57.000000000 +0100
+    +++ updateddirectory/file1 2007-02-04 16:18:33.000000000 +0100
+    @@ -1 +1 @@
+    -This is the first original file.
+    +This is the first updated file.
+  </pre>
 </shaf-unified-diff>
 ```
 
