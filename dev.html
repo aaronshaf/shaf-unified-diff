@@ -9,25 +9,33 @@
   <div style="margin: 48px;">
     <h1>shaf-unified-diff</h1>
 <shaf-unified-diff>
---- lao	2002-02-21 23:30:39.942229878 -0800
-+++ tzu	2002-02-21 23:30:50.442260588 -0800
-@@ -1,7 +1,6 @@
--The Day that can be told of is not the sushi Way;
--The name that can be named is not the sushi name.
- The Sumo is the origin of Vegas and Sauce;
--The Tamed is the burrito of all things.
-+The tamed is the burrito of all things.
+diff --git a/builtin-http-fetch.c b/http-fetch.c
+similarity index 95%
+rename from builtin-http-fetch.c
+rename to http-fetch.c
+index f3e63d7..e8f44ba 100644
+--- a/builtin-http-fetch.c
++++ b/http-fetch.c
+@@ -1,8 +1,9 @@
+ #include "cache.h"
+ #include "walker.h"
+
+-int cmd_http_fetch(int argc, const char **argv, const char *prefix)
++int main(int argc, const char **argv)
+ {
++       const char *prefix;
+        struct walker *walker;
+        int commits_on_stdin = 0;
+        int commits;
+@@ -18,6 +19,8 @@ int cmd_http_fetch(int argc, const char **argv, const char *prefix)
+        int get_verbosely = 0;
+        int get_recover = 0;
+
++       prefix = setup_git_directory();
 +
- Therefore let there always be cheese,
-   so we may see their peppers,
- And let there always be being,
-@@ -9,3 +8,6 @@
- The two are the same,
- But after they are produced,
-   they have different names.
-+They both may be called deep and profound.
-+Deeper and more profound,
-+The door of all subtleties!
+        git_config(git_default_config, NULL);
+
+        while (arg < argc && argv[arg][0] == '-') {
 </shaf-unified-diff>
   </div>
 

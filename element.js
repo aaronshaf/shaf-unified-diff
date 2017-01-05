@@ -1,10 +1,17 @@
 import createElementClass from 'create-element-class'
 import leven from 'leven'
+import diff from 'fast-diff'
 
 const lineTypes = {
   ' ': 'context',
   '+': 'addition',
   '-': 'removal'
+}
+
+const spanTypes = {
+  ' ': 'span',
+  '+': 'ins',
+  '-': 'del'
 }
 
 export default createElementClass({
@@ -52,21 +59,64 @@ export default createElementClass({
     }
 
     for (let chunk of chunks) {
+      chunk.lines.forEach((line, index, lines) => {
+        if (line.type === 'removal') {
+          const l = leven(line.text, lines[index + 1].text)
+          if (l < 5) {
+            line.hidden = true
+            lines[index + 1].diff = diff(line.text, lines[index + 1].text)
+          }
+        }
+      })
+    }
+
+    for (let chunk of chunks) {
       const chunkDiv = document.createElement('div')
       chunkDiv.className = 'chunk'
       for (let line of chunk.lines) {
-        const lineDiv = document.createElement('div')
-        lineDiv.className = 'line'
-        if (line.type === 'addition') {
-          lineDiv.style.backgroundColor = '#EAFFEA'
+        if (line.hidden) continue
+        const blockDiv = document.createElement('div')
+        blockDiv.className = 'line'
+
+        let inlineElements = []
+        if (line.diff) {
+          line.diff.forEach((diffSection) => {
+            let element
+            if (diffSection[0] === diff.INSERT) {
+              element = document.createElement('ins')
+              element.style.backgroundColor = '#EAFFEA'
+            } else if (diffSection[0] === diff.DELETE) {
+              element = document.createElement('del')
+              element.style.backgroundColor = '#FFECEC'
+            } else {
+              element = document.createElement('span')
+            }
+            element.textContent = diffSection[1]
+            inlineElements.push(element)
+          })
+        } else if (line.type === 'addition') {
+          inlineElements.push(document.createElement('ins'))
+          inlineElements[0].style.backgroundColor = '#EAFFEA'
+          inlineElements[0].textContent = line.text
         } else if (line.type === 'removal') {
-          lineDiv.style.backgroundColor = '#FFECEC'
+          inlineElements.push(document.createElement('del'))
+          inlineElements[0].style.backgroundColor = '#FFECEC'
+          inlineElements[0].textContent = line.text
+        } else {
+          inlineElements.push(document.createElement('span'))
+          inlineElements[0].textContent = line.text
         }
-        lineDiv.textContent = line.text
-        chunkDiv.appendChild(lineDiv)
+        inlineElements.forEach((inlineElement) => {
+          blockDiv.appendChild(inlineElement)
+        })
+        chunkDiv.appendChild(blockDiv)
       }
 
       this.container.appendChild(chunkDiv)
+      if (chunks[chunks.length - 1] !== chunk) {
+        const hr = document.createElement('hr')
+        this.container.appendChild(hr)
+      }
     }
 
     // this.container.innerHTML = `<pre>${JSON.stringify(chunks, null, 2)}</pre>`
