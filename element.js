@@ -110,6 +110,7 @@ export default createElementClass({
           blockDiv.appendChild(inlineElement)
         })
         chunkDiv.appendChild(blockDiv)
+        chunkDiv.style.fontFamily = `Consolas, "Liberation Mono", Menlo, Courier, monospace;`
       }
 
       this.container.appendChild(chunkDiv)
