@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aaronshaf/shaf-unified-diff-viewer.git"
+    "url": "git+https://github.com/aaronshaf/shaf-unified-diff.git"
   },
   "keywords": [
     "unified",
@@ -19,9 +19,9 @@
   "author": "Aaron Shafovaloff <aaronshaf@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aaronshaf/shaf-unified-diff-viewer/issues"
+    "url": "https://github.com/aaronshaf/shaf-unified-diff/issues"
   },
-  "homepage": "https://github.com/aaronshaf/shaf-unified-diff-viewer#readme",
+  "homepage": "https://github.com/aaronshaf/shaf-unified-diff#readme",
   "dependencies": {
     "fast-diff": "^1.1.1",
     "leven": "^2.0.0"
