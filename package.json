@@ -1,0 +1,39 @@
+{
+  "name": "shaf-unified-diff",
+  "version": "1.0.0",
+  "description": "Custom element to view unified diff",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack define.js index.js -p --watch",
+    "build": "webpack define.js index.js -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronshaf/shaf-unified-diff-viewer.git"
+  },
+  "keywords": [
+    "unified",
+    "diff",
+    "git"
+  ],
+  "author": "Aaron Shafovaloff <aaronshaf@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aaronshaf/shaf-unified-diff-viewer/issues"
+  },
+  "homepage": "https://github.com/aaronshaf/shaf-unified-diff-viewer#readme",
+  "dependencies": {
+    "fast-diff": "^1.1.1",
+    "leven": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-es2015": "^6.18.0",
+    "classnames": "^2.2.5",
+    "create-element-class": "^1.0.1",
+    "document-register-element": "^1.3.0",
+    "webpack": "^1.13.3"
+  }
+}
