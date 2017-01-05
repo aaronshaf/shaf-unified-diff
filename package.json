@@ -1,6 +1,6 @@
 {
   "name": "shaf-unified-diff",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom element to view unified diff",
   "main": "index.js",
   "scripts": {
