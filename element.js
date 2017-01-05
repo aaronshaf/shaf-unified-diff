@@ -1,4 +1,5 @@
 import createElementClass from 'create-element-class'
+import leven from 'leven'
 
 const lineTypes = {
   ' ': 'context',
