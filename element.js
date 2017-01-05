@@ -97,6 +97,7 @@ export default createElementClass({
         } else if (line.type === 'addition') {
           inlineElements.push(document.createElement('ins'))
           inlineElements[0].style.backgroundColor = '#EAFFEA'
+          inlineElements[0].style.textDecoration = 'inherit'
           inlineElements[0].textContent = line.text
         } else if (line.type === 'removal') {
           inlineElements.push(document.createElement('del'))
@@ -111,6 +112,7 @@ export default createElementClass({
         })
         chunkDiv.appendChild(blockDiv)
         chunkDiv.style.fontFamily = `Consolas, "Liberation Mono", Menlo, Courier, monospace;`
+        chunkDiv.style.whiteSpace = 'pre'
       }
 
       this.container.appendChild(chunkDiv)
