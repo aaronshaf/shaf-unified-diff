@@ -25,7 +25,7 @@ diff -u originaldirectory/file1 updateddirectory/file1
 </shaf-unified-diff>
 ```
 
-The diff still shows if JavaScript is turned off. Since a `<pre>` tag assumes preformatted text, there is no hope of pretty indentation.
+The diff still shows if JavaScript is turned off. Don't indent the contents since the `<pre>` tag assumes preformatted text.
 
 ## Dependencies
 
