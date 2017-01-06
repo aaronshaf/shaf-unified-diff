@@ -10,61 +10,61 @@
     <h1>shaf-unified-diff</h1>
     <p>View source to see usage.</p>
     <h2>Example 1</h2>
-<shaf-unified-diff>
-  <pre>
-diff --git a/builtin-http-fetch.c b/http-fetch.c
-similarity index 95%
-rename from builtin-http-fetch.c
-rename to http-fetch.c
-index f3e63d7..e8f44ba 100644
---- a/builtin-http-fetch.c
-+++ b/http-fetch.c
-@@ -1,8 +1,9 @@
- #include "cache.h"
- #include "walker.h"
+    <shaf-unified-diff>
+      <pre>
+        diff --git a/builtin-http-fetch.c b/http-fetch.c
+        similarity index 95%
+        rename from builtin-http-fetch.c
+        rename to http-fetch.c
+        index f3e63d7..e8f44ba 100644
+        --- a/builtin-http-fetch.c
+        +++ b/http-fetch.c
+        @@ -1,8 +1,9 @@
+         #include "cache.h"
+         #include "walker.h"
 
--int cmd_http_fetch(int argc, const char **argv, const char *prefix)
-+int main(int argc, const char **argv)
- {
-+       const char *prefix;
-        struct walker *walker;
-        int commits_on_stdin = 0;
-        int commits;
-@@ -18,6 +19,8 @@ int cmd_http_fetch(int argc, const char **argv, const char *prefix)
-        int get_verbosely = 0;
-        int get_recover = 0;
+        -int cmd_http_fetch(int argc, const char **argv, const char *prefix)
+        +int main(int argc, const char **argv)
+         {
+        +       const char *prefix;
+                struct walker *walker;
+                int commits_on_stdin = 0;
+                int commits;
+        @@ -18,6 +19,8 @@ int cmd_http_fetch(int argc, const char **argv, const char *prefix)
+                int get_verbosely = 0;
+                int get_recover = 0;
 
-+       prefix = setup_git_directory();
-+
-        git_config(git_default_config, NULL);
+        +       prefix = setup_git_directory();
+        +
+                git_config(git_default_config, NULL);
 
-        while (arg < argc && argv[arg][0] == '-') {
-  </pre>
-</shaf-unified-diff>
+                while (arg < argc && argv[arg][0] == '-') {
+      </pre>
+    </shaf-unified-diff>
 
-  <h2>Example 2</h2>
-<shaf-unified-diff>
-<pre>
-diff -u originaldirectory/file1 updateddirectory/file1
---- originaldirectory/file1 2007-02-04 16:17:57.000000000 +0100
-+++ updateddirectory/file1 2007-02-04 16:18:33.000000000 +0100
-@@ -1 +1 @@
--This is a sentence with a neat word.
-+This is a sentence with a neater word.
-</pre>
-</shaf-unified-diff>
+    <h2>Example 2</h2>
+    <shaf-unified-diff>
+      <pre>
+        diff -u originaldirectory/file1 updateddirectory/file1
+        --- originaldirectory/file1 2007-02-04 16:17:57.000000000 +0100
+        +++ updateddirectory/file1 2007-02-04 16:18:33.000000000 +0100
+        @@ -1 +1 @@
+        -This is a sentence with a neat word.
+        +This is a sentence with a neater word.
+      </pre>
+    </shaf-unified-diff>
 
-  <h2>Example 3 (needs polish)</h2>
-<shaf-unified-diff>
-<pre>
-diff -u originaldirectory/file1 updateddirectory/file1
---- originaldirectory/file1 2007-02-04 16:17:57.000000000 +0100
-+++ updateddirectory/file1 2007-02-04 16:18:33.000000000 +0100
-@@ -1 +1 @@
--This is a sentence with an original word.
-+This is a sentence with an replaced word.
-</pre>
-</shaf-unified-diff>
+    <h2>Example 3 (needs polish)</h2>
+    <shaf-unified-diff>
+      <pre>
+        diff -u originaldirectory/file1 updateddirectory/file1
+        --- originaldirectory/file1 2007-02-04 16:17:57.000000000 +0100
+        +++ updateddirectory/file1 2007-02-04 16:18:33.000000000 +0100
+        @@ -1 +1 @@
+        -This is a sentence with an original word.
+        +This is a sentence with an replaced word.
+      </pre>
+    </shaf-unified-diff>
   </div>
 
   <script src="https://unpkg.com/github-corner@2.0.2"></script>

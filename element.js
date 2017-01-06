@@ -40,7 +40,11 @@ export default createElementClass({
 
     let lines = patch.split("\n")
     let oops = 0
-    while (!isChunkHeader(lines[0])) { lines.shift() }
+    const indentation = findFirstChunkIndentation(patch)
+    lines = lines.map((line) => {
+      return line.substr(indentation)
+    })
+    while (lines.length && !isChunkHeader(lines[0])) { lines.shift() }
 
     const chunks = []
     for (let line of lines) {
@@ -144,4 +148,18 @@ function isNotRemoval (line) {
 
 function isChunkHeader (str) {
   return str && str.indexOf('@@') === 0
+}
+
+function findFirstChunkIndentation (string) {
+  return string.split('\n').reduce((prev, line) => {
+    if (prev !== null) return prev
+    if (line.substr(0, 2) === '@@') {
+      return 0
+    }
+    const atChar = line.search(/(\s)@@/)
+    if (atChar !== -1) {
+      return line.indexOf('@@')
+    }
+    return null
+  }, null)
 }
