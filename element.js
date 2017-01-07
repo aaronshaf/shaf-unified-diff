@@ -119,7 +119,7 @@ export default createElementClass({
         })
         chunkDiv.appendChild(blockDiv)
         chunkDiv.style.fontFamily = `Consolas, "Liberation Mono", Menlo, Courier, monospace;`
-        chunkDiv.style.whiteSpace = 'pre'
+        chunkDiv.style.whiteSpace = 'pre-wrap'
       }
 
       this.container.appendChild(chunkDiv)
