@@ -101,7 +101,6 @@ export default createElementClass({
         }
         const blockDiv = document.createElement('div')
         blockDiv.className = 'line'
-        blockDiv.style.minHeight = '1rem'
 
         let inlineElements = []
         if (line.diff) {
@@ -130,7 +129,7 @@ export default createElementClass({
           inlineElements[0].textContent = line.text
         } else {
           const span = document.createElement('span')
-          span.textContent = line.text
+          span.textContent = line.text || "\n"
           inlineElements.push(span)
         }
         inlineElements.forEach(inlineElement => {
