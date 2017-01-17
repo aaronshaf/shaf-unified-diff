@@ -2,7 +2,12 @@ import createElementClass from 'create-element-class'
 import leven from 'leven'
 import diff from 'fast-diff'
 
-const lineTypes = { ' ': 'context', '+': 'addition', '-': 'removal' }
+const lineTypes = {
+  ' ': 'context',
+  undefined: 'context',
+  '+': 'addition',
+  '-': 'removal'
+}
 
 const spanTypes = { ' ': 'span', '+': 'ins', '-': 'del' }
 
@@ -33,7 +38,6 @@ export default createElementClass({
       const additionLines = chunk.lines.filter(
         line => line.type === 'addition'
       )
-      // console.debug(chunk.lines)
       removalLines.forEach((removalLine, index) => {
         additionLines.forEach((additionLine, index) => {
           if (additionLine.removalIdentified) {
@@ -41,7 +45,7 @@ export default createElementClass({
           }
           // if line is proximate replacement, show char-level diff
           const l = leven(removalLine.text, additionLine.text)
-          if (l < 10) {
+          if (l < 15) {
             // char-level diff
             removalLine.isHidden = true
             const beginningEqualWords = []
@@ -69,14 +73,11 @@ export default createElementClass({
             const wordsRemoved = removalLineWords.join(' ')
             const wordsAdded = additionLineWords.join(' ')
             let _diff
-            if (leven(wordsRemoved, wordsAdded) < 5) {
+            if (leven(wordsRemoved, wordsAdded) < 8) {
               _diff = diff(wordsRemoved, wordsAdded)
             } else {
               // words are too different for char-level diff
-              _diff = [
-                [ -1, wordsRemoved],
-                [ 1, wordsAdded]
-              ]
+              _diff = [ [ -1, wordsRemoved ], [ 1, wordsAdded ] ]
             }
 
             additionLine.diff = [].concat(
@@ -100,6 +101,7 @@ export default createElementClass({
         }
         const blockDiv = document.createElement('div')
         blockDiv.className = 'line'
+        blockDiv.style.minHeight = '1rem'
 
         let inlineElements = []
         if (line.diff) {
@@ -127,8 +129,9 @@ export default createElementClass({
           inlineElements[0].style.backgroundColor = '#FFECEC'
           inlineElements[0].textContent = line.text
         } else {
-          inlineElements.push(document.createElement('span'))
-          inlineElements[0].textContent = line.text
+          const span = document.createElement('span')
+          span.textContent = line.text
+          inlineElements.push(span)
         }
         inlineElements.forEach(inlineElement => {
           blockDiv.appendChild(inlineElement)
