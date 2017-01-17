@@ -7,7 +7,7 @@
 
 ```html
 <!-- our custom element's source (3.4KB gzipped) -->
-<script src="https://unpkg.com/shaf-unified-diff@1.0.8"></script>
+<script src="https://unpkg.com/shaf-unified-diff@1.0.9"></script>
 ```
 
 ### Usage
