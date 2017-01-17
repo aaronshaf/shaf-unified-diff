@@ -20,57 +20,29 @@ export default createElementClass({
   },
 
   connectedCallback() {
-    // if (document.body.attachShadow) {
-    //   this._shadowRoot = this.container.attachShadow({mode: 'open'})
-    //   const style = document.createElement('style')
-    //   style.type = 'text/css'
-    //   style.appendChild(document.createTextNode(css))
-    //   this._shadowRoot.appendChild(style)
-    // }
-    //
-    // this.appendChild(this.container)
-    //
-    // this.input = this.querySelector('input')
-    // this.input.className += ' shaf-screenreader-only'
-    // this.updateRendering()
-
     const pre = this.querySelector('pre')
     pre.style.display = 'none'
     const patch = pre.textContent
-
-    let lines = patch.split("\n")
-    let oops = 0
-    const indentation = findFirstChunkIndentation(patch)
-    lines = lines.map((line) => {
-      return line.substr(indentation)
-    })
-    while (lines.length && !isChunkHeader(lines[0])) { lines.shift() }
-
-    const chunks = []
-    for (let line of lines) {
-      if (isChunkHeader(line)) {
-        chunks.push({
-          lines: []
-        })
-      } else if (lineTypes[line[0]]) {
-        chunks[chunks.length - 1].lines.push({
-          type: lineTypes[line[0]],
-          text: line.substr(1)
-        })
-      }
-    }
 
     this.container = document.createElement('div')
     if (document.body.attachShadow) {
       this.container = this.container.attachShadow({mode: 'open'})
     }
 
+    let oops = 0
+
+    const lines = removeIndentation(patch)
+    removeBeginningNonChunkLines(lines)
+    const chunks = toChunks(lines)
+
     for (let chunk of chunks) {
       chunk.lines.forEach((line, index, lines) => {
         if (line.type === 'removal') {
+          // if next line is proximate replacement, show char-level diff
           const l = leven(line.text, lines[index + 1].text)
           if (l < 10) {
-            line.hidden = true
+            line.isHidden = true
+            // char-leve diff
             lines[index + 1].diff = diff(line.text, lines[index + 1].text)
           }
         }
@@ -81,7 +53,7 @@ export default createElementClass({
       const chunkDiv = document.createElement('div')
       chunkDiv.className = 'chunk'
       for (let line of chunk.lines) {
-        if (line.hidden) continue
+        if (line.isHidden) continue
         const blockDiv = document.createElement('div')
         blockDiv.className = 'line'
 
@@ -131,13 +103,9 @@ export default createElementClass({
 
     this.appendChild(this.container)
 
-    // this.container.innerHTML = `<pre>${JSON.stringify(chunks, null, 2)}</pre>`
-
   },
 
   updateRendering() {
-    // const root = this._shadowRoot || this.container
-    // preact.render(<ToggleComponent input={this.input} />, root, root.querySelector(':not(style)'))
     this.rendered = true
   }
 })
@@ -162,4 +130,36 @@ function findFirstChunkIndentation (string) {
     }
     return null
   }, null)
+}
+
+// normalize the chunk if it was indented in the <pre> element
+function removeIndentation (patch) {
+  const lines = patch.split("\n")
+  const indentation = findFirstChunkIndentation(patch)
+  return lines.map((line) => {
+    return line.substr(indentation)
+  })
+}
+
+// remove all lines up until first chunk
+// TODO: don't mutate
+function removeBeginningNonChunkLines (lines) {
+  while (lines.length && !isChunkHeader(lines[0])) { lines.shift() }
+}
+
+function toChunks (lines) {
+  const chunks = []
+  for (let line of lines) {
+    if (isChunkHeader(line)) {
+      chunks.push({
+        lines: []
+      })
+    } else if (lineTypes[line[0]]) {
+      chunks[chunks.length - 1].lines.push({
+        type: lineTypes[line[0]],
+        text: line.substr(1)
+      })
+    }
+  }
+  return chunks
 }

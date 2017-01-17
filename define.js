@@ -1,3 +1,3 @@
-import ToggleElement from './element'
+import Element from './element'
 
-customElements.define('shaf-unified-diff', ToggleElement)
+customElements.define('shaf-unified-diff', Element)
