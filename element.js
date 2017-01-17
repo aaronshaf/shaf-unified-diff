@@ -122,11 +122,11 @@ export default createElementClass({
           inlineElements.push(document.createElement('ins'))
           inlineElements[0].style.backgroundColor = '#EAFFEA'
           inlineElements[0].style.textDecoration = 'inherit'
-          inlineElements[0].textContent = line.text
+          inlineElements[0].textContent = line.text || "\n"
         } else if (line.type === 'removal') {
           inlineElements.push(document.createElement('del'))
           inlineElements[0].style.backgroundColor = '#FFECEC'
-          inlineElements[0].textContent = line.text
+          inlineElements[0].textContent = line.text || "\n"
         } else {
           const span = document.createElement('span')
           span.textContent = line.text || "\n"
