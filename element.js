@@ -42,9 +42,49 @@ export default createElementClass({
           // if line is proximate replacement, show char-level diff
           const l = leven(removalLine.text, additionLine.text)
           if (l < 10) {
-            removalLine.isHidden = true
             // char-level diff
-            additionLine.diff = diff(removalLine.text, additionLine.text)
+            removalLine.isHidden = true
+            const beginningEqualWords = []
+            const endingEqualWords = []
+            const removalLineWords = removalLine.text.split(' ')
+            const additionLineWords = additionLine.text.split(' ')
+
+            while (removalLineWords.length && additionLineWords.length &&
+              removalLineWords[0] === additionLineWords[0]) {
+              beginningEqualWords.push(additionLineWords[0])
+              removalLineWords.shift()
+              additionLineWords.shift()
+            }
+
+            while (removalLineWords.length && additionLineWords.length &&
+              removalLineWords[removalLineWords.length - 1] ===
+                additionLineWords[additionLineWords.length - 1]) {
+              endingEqualWords.push(
+                additionLineWords[additionLineWords.length - 1]
+              )
+              removalLineWords.pop()
+              additionLineWords.pop()
+            }
+
+            const wordsRemoved = removalLineWords.join(' ')
+            const wordsAdded = additionLineWords.join(' ')
+            let _diff
+            if (leven(wordsRemoved, wordsAdded) < 5) {
+              _diff = diff(wordsRemoved, wordsAdded)
+            } else {
+              // words are too different for char-level diff
+              _diff = [
+                [ -1, wordsRemoved],
+                [ 1, wordsAdded]
+              ]
+            }
+
+            additionLine.diff = [].concat(
+              [ [ 0, beginningEqualWords.join(' ') + ' ' ] ],
+              _diff,
+              [ [ 0, ' ' + endingEqualWords.join(' ') ] ]
+            )
+
             additionLine.removalIdentified = true
           }
         })
