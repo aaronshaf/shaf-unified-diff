@@ -17,7 +17,16 @@ export default createElementClass({
       this.updateRendering()
     }
   },
-  connectedCallback () {
+  connectedCallback() {
+    if (this.querySelector('pre')) {
+      this.init()
+    } else {
+      window.requestAnimationFrame(() => {
+        this.init()
+      })
+    }
+  },
+  init () {
     const pre = this.querySelector('pre')
     pre.style.display = 'none'
     const patch = pre.textContent
